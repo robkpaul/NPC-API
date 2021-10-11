@@ -5,13 +5,13 @@ app = FastAPI()
 
 class NPC:
     name = ''
-    race = ''
+    anc = ''
     stats = {'str': 10, 'dex': 10, 'con': 10, 'int': 10, 'wis': 10, 'cha': 10}
 
     def toDict(self):
         as_dict = {}
         as_dict['name'] = self.name
-        as_dict['race'] = self.race
+        as_dict['ancestry'] = self.anc
         as_dict['stats'] = {'str': self.stats['str'], 
                             'dex': self.stats['dex'], 
                             'con': self.stats['con'], 
@@ -31,25 +31,25 @@ def index():
 @app.get('/new')
 def newNPC():
     npc = NPC()
-    rand_race = random.randint(1,10)
-    if rand_race == 1:
-        npc.race = 'Dwarf'
-    elif rand_race == 2:
-        npc.race = 'Elf'
-    elif rand_race == 3:
-        npc.race = 'Halfling'
-    elif rand_race == 4:
-        npc.race = 'Dragonborn'
-    elif rand_race == 5:
-        npc.race = 'Gnome'
-    elif rand_race == 6:
-        npc.race = 'Tiefling'
-    elif rand_race > 6: # ~40% chance of human
-        npc.race = 'Human'
+    rand_anc = random.randint(1,10)
+    if rand_anc == 1:
+        npc.anc = 'Dwarf'
+    elif rand_anc == 2:
+        npc.anc = 'Elf'
+    elif rand_anc == 3:
+        npc.anc = 'Halfling'
+    elif rand_anc == 4:
+        npc.anc = 'Dragonborn'
+    elif rand_anc == 5:
+        npc.anc = 'Gnome'
+    elif rand_anc == 6:
+        npc.anc = 'Tiefling'
+    elif rand_anc > 6: # ~40% chance of human
+        npc.anc = 'Human'
 
-    npc.name = names[npc.race+'_first'][random.randint(0,len(names[npc.race+'_first'])-1)]
-    if(npc.race != 'Elf' and npc.race != 'Tiefling'): # chooses last name of NPC, elves and tieflings have no last names, so ignores them.
-        npc.name = npc.name + ' ' + names[npc.race+'_last'][random.randint(0,len(names[npc.race+'_last'])-1)]
+    npc.name = names[npc.anc+'_first'][random.randint(0,len(names[npc.anc+'_first'])-1)]
+    if(npc.anc != 'Elf' and npc.anc != 'Tiefling'): # chooses last name of NPC, elves and tieflings have no last names, so ignores them.
+        npc.name = npc.name + ' ' + names[npc.anc+'_last'][random.randint(0,len(names[npc.anc+'_last'])-1)]
 
     for stat in npc.stats: # randomizing stats: maximum 12, minimum 8 (assuming commoner stats for npcs)
         npc.stats[stat] = npc.stats[stat]-random.randint(-2,2)
