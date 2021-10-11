@@ -55,3 +55,17 @@ def newNPC():
         npc.stats[stat] = npc.stats[stat]-random.randint(-2,2)
 
     return npc.toDict()
+
+@app.get('/new/{anc}')
+def newNPC(anc: str):
+    npc = NPC()
+    npc.anc = anc
+    
+    npc.name = names[npc.anc+'_first'][random.randint(0,len(names[npc.anc+'_first'])-1)]
+    if(npc.anc != 'Elf' and npc.anc != 'Tiefling'): # chooses last name of NPC, elves and tieflings have no last names, so ignores them.
+        npc.name = npc.name + ' ' + names[npc.anc+'_last'][random.randint(0,len(names[npc.anc+'_last'])-1)]
+
+    for stat in npc.stats: # randomizing stats: maximum 12, minimum 8 (assuming commoner stats for npcs)
+        npc.stats[stat] = npc.stats[stat]-random.randint(-2,2)
+
+    return npc.toDict()
